@@ -1,0 +1,30 @@
+
+server:
+  port: ${server.port:8081}
+  
+spring:
+    application:
+        name: config-client
+    main:
+        lazy-initialization: true
+            
+    profiles:
+#        active: dev 
+        active: test
+        
+#    cloud:
+#        config:
+#            uri: http://localhost:8081   # Use the new way below
+#    cloud:
+#        config:
+#            fail-fast: 'true'
+
+    config:
+#        import: optional:configserver:http://localhost:8888    #optional is to start the app without config server
+        import: configserver:http://localhost:8888
+        
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'

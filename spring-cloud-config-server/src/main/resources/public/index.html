@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Spring Boot Config Server</title>
+	<script>
+		document.write('<h2>Spring Boot Config Server</h2>');
+
+		document.write('<br /><h3>Get Properties : http://{address}:{port}/{application}/{profile}</h3>');
+		var url = window.location.href + 'config-client/default';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+		var url = window.location.href + 'config-client/dev';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+		var url = window.location.href + 'config-client/test';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+
+		document.write('<br /><h3>Get Resource : http://{address}:{port}/{application}-{profile}.properties</h3>');
+		var url = window.location.href + 'config-client.properties';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+		var url = window.location.href + 'config-client-dev.properties';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+		var url = window.location.href + 'config-client-test.properties';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+
+		document.write('<br /><h3>Get Actuator:</h3>');
+		var url = window.location.href + 'actuator';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+
+		document.write('<br /><h3>Get JSON from Server:</h3>');
+		var url = window.location.href + 'json';
+		document.write('<a href="' + url + '"> ' + url + ' </a><br />');
+
+	</script>
+</head>
+
+</html>
