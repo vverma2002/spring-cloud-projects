@@ -3,7 +3,9 @@ debug: false
 spring:
   application:
     name: spring-cloud-eureka-server
-    
+  main:
+    lazy-initialization: true
+        
 server:
   port: ${PORT:8761}
   

@@ -1,6 +1,7 @@
 spring:
   application:
     name: spring-cloud-eureka-client
+  main:    lazy-initialization: true
     
 server:
 #  port: 0   # For Dynamic Port allocation
@@ -11,7 +12,7 @@ eureka:
 #    hostname: ${APPLICATION_DOMAIN}    # Not needed if you are running on a machine that knows its own hostname 
 #    nonSecurePort: 80  
 #    preferIpAddress: true              # When the application registers with eureka, it uses its IP address rather than its hostname.
-    lease-renewal-interval-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
     metadata-map:
       customProp: customPropValue
   client:

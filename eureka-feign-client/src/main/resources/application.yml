@@ -1,11 +1,14 @@
 spring:
   application:
     name: spring-cloud-eureka-feign-client
-    
+  main:
+    lazy-initialization: true    
 server:
   port: 8090
 
 eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
