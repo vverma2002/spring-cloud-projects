@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: eureka-client
+  main:    lazy-initialization: true
+    
+server:
+#  port: 0   # For Dynamic Port allocation
+  port: 8080
+  
+eureka:
+  instance:
+#    hostname: ${APPLICATION_DOMAIN}    # Not needed if you are running on a machine that knows its own hostname 
+#    nonSecurePort: 80  
+#    preferIpAddress: true              # When the application registers with eureka, it uses its IP address rather than its hostname.
+    lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
+    metadata-map:
+      customProp: customPropValue
+  client:
+    enabled: true     # discoveryClient autowire wont work if enabled is false. 
+    refresh:
+      enable: false      
+    healthcheck:
+      enabled: false  # needs actuator or self implemented /info and /health endpounts
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: '*'
+      
+
+debug: false
+

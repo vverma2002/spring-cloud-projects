@@ -1,0 +1,22 @@
+debug: false
+
+spring:
+  application:
+    name: eureka-server
+  main:
+    lazy-initialization: true
+        
+server:
+  port: 8761
+  
+eureka:
+#  instance:
+#    hostname: localhost  # Not needed if you are running on a machine that knows its own hostname 
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/    #dynamic way ;)  
+      defaultZone: http://localhost:8761/eureka/
+#  server:
+#    waitTimeInMsWhenSyncEmpty: 0
