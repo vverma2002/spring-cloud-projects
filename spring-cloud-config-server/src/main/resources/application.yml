@@ -11,6 +11,13 @@ spring:
     profiles:
         active:
         - native
+        
+#    cloud:                 # if not the native profile, give the folder explicitly as-
+#      config:
+#        server:
+#          native:
+#            search-locations:
+#            - /common-config
 
 management:
     endpoints:
