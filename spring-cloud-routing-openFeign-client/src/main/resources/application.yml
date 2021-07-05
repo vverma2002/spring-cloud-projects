@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: openFeign-client
+  main:
+    lazy-initialization: true
+  cloud:
+    loadbalancer:
+      enabled: true
+
+   
+server:
+  port: 8080
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
