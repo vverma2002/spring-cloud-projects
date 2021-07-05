@@ -105,6 +105,7 @@ public class SpringCloudDiscoveryEurekaClientApplication {
 	@GetMapping("/eurekaClient")
 	public String serviceEurekaClient() {
 
+//		InstanceInfo instanceInfo = eurekaClient.getApplication(REMOTE_SERVICE).getInstances().get(0);
 		InstanceInfo instanceInfo = eurekaClient.getNextServerFromEureka(REMOTE_SERVICE, false);
 		String serviceBaseUrl = instanceInfo.getHomePageUrl();
 		System.out.printf("serviceBaseUrl : {%s}\n", serviceBaseUrl);
