@@ -15,12 +15,12 @@ eureka:
     lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
     metadata-map:
       customProp: customPropValue
+      name: ${spring.application.name}
+      type: client      
   client:
-    enabled: true     # discoveryClient autowire wont work if enabled is false. 
-    refresh:
-      enable: false      
-    healthcheck:
-      enabled: false  # needs actuator or self implemented /info and /health endpounts
+    enabled: true     # discoveryClient autowire wont work if enabled is false.
+    registerWithEureka: false
+    fetchRegistry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
 #      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}

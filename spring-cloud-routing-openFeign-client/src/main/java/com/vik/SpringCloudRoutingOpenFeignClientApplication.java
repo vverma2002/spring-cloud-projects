@@ -37,6 +37,9 @@ public class SpringCloudRoutingOpenFeignClientApplication {
 	@Autowired
 	private EurekaServiceAbcClient eurekaServiceAbcClient;
 
+	@Autowired
+	private EurekaServiceDefClient eurekaServiceDefClient;
+
 	@GetMapping("/")
 	public HashMap<String, Object> get() {
 		HashMap<String, Object> map = new LinkedHashMap<>();
@@ -46,25 +49,38 @@ public class SpringCloudRoutingOpenFeignClientApplication {
 		map.put("ActiveProfile", activeProfile);
 		map.put("Actuator", "http://localhost:" + serverPort + "/actuator");
 		map.put("----------", "----------");
-		map.put("/greetings-withFeign", "http://localhost:" + serverPort + "/greetings-withFeign");
+		map.put("/Feigh EurekaServiceAbc", "http://localhost:" + serverPort + "/feighGreetings-withEurekaServiceAbc");
+		map.put("/Feigh EurekaServiceDef", "http://localhost:" + serverPort + "/feighGreetings-withEurekaServiceDef");
 
 		return map;
 	}
 
-	@RequestMapping("/greetings-withFeign")
-	public String greetingWithFeign() {
-		return eurekaServiceAbcClient.greeting();
+	@RequestMapping("/feighGreetings-withEurekaServiceAbc")
+	public String greetingWithFeignwithEurekaServiceAbc() {
+		return eurekaServiceAbcClient.greetings();
+	}
+
+	@RequestMapping("/feighGreetings-withEurekaServiceDef")
+	public String greetingWithFeignwithEurekaServiceDef() {
+		return eurekaServiceDefClient.greetings();
 	}
 
 }
 
 @FeignClient("eureka-service-abc")
-//@FeignClient(name = "weather", url = "weather.livedoor.com")
-//@FeignClient(name = "localServiceClient", url = "localhost:1234", path = "/api/server")
 interface EurekaServiceAbcClient {
 
-	@RequestMapping("/greetings?name=OpenFeigh CLient")
-	public String greeting();
+	@RequestMapping("/greetings?name=OpenFeigh Client")
+	public String greetings();
+}
+
+@FeignClient("eureka-service-def")
+//@FeignClient(name = "weather", url = "weather.livedoor.com")
+//@FeignClient(name = "localServiceClient", url = "localhost:1234", path = "/api/server")
+interface EurekaServiceDefClient {
+
+	@RequestMapping("/greetings?name=OpenFeigh Client")
+	public String greetings();
 
 //  @GetMapping("/firstService")
 //  String getServerFirstServiceData();

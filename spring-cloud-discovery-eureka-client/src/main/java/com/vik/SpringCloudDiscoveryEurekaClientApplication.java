@@ -14,7 +14,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,7 +28,8 @@ public class SpringCloudDiscoveryEurekaClientApplication {
 		SpringApplication.run(SpringCloudDiscoveryEurekaClientApplication.class, args);
 	}
 
-	static final String REMOTE_SERVICE = "eureka-service-abc";
+	static final String REMOTE_SERVICE_ABC = "eureka-service-abc";
+	static final String REMOTE_SERVICE_DEF = "eureka-service-def";
 
 	@Value("${spring.application.name}")
 	private String aplicationName;
@@ -59,27 +59,21 @@ public class SpringCloudDiscoveryEurekaClientApplication {
 		map.put("ActiveProfile", activeProfile);
 		map.put("Actuator", "http://localhost:" + serverPort + "/actuator");
 		map.put("----------", "----------");
-		map.put("/greetings", "http://localhost:" + serverPort + "/greetings");
-		map.put("/service-instances/{applicationName1}",
-				"http://localhost:" + serverPort + "/service-instances/" + aplicationName);
 		map.put("/service-instances/{applicationName2}",
-				"http://localhost:" + serverPort + "/service-instances/" + REMOTE_SERVICE);
+				"http://localhost:" + serverPort + "/service-instances/" + REMOTE_SERVICE_ABC);
+		map.put("/service-instances/{applicationName3}",
+				"http://localhost:" + serverPort + "/service-instances/" + REMOTE_SERVICE_DEF);
 		map.put("-----------", "-----------");
-		map.put("via discoveryClient", "http://localhost:" + serverPort + "/discoveryClient");
-		map.put("via eurekaClient", "http://localhost:" + serverPort + "/eurekaClient");
+		map.put("eureka-service-abc via discoveryClient",
+				"http://localhost:" + serverPort + "/discoveryClient/" + REMOTE_SERVICE_ABC);
+		map.put("eureka-service-abc via eurekaClient",
+				"http://localhost:" + serverPort + "/eurekaClient/" + REMOTE_SERVICE_ABC);
+		map.put("------------", "------------");
+		map.put("eureka-service-def via discoveryClient",
+				"http://localhost:" + serverPort + "/discoveryClient/" + REMOTE_SERVICE_DEF);
+		map.put("eureka-service-def via eurekaClient",
+				"http://localhost:" + serverPort + "/eurekaClient/" + REMOTE_SERVICE_DEF);
 		return map;
-	}
-
-	@GetMapping("/greetings")
-	public String greetings(@RequestParam(value = "name", defaultValue = "World") String name) {
-
-		String host = "...";
-		List<ServiceInstance> list = discoveryClient.getInstances(aplicationName);
-		if (list != null && list.size() > 0) {
-			host = list.get(0).getUri().toString();
-		}
-
-		return String.format("Hello %s! From %s, Hosted at %s", name, aplicationName, host);
 	}
 
 	@GetMapping("/service-instances/{applicationName}")
@@ -87,11 +81,11 @@ public class SpringCloudDiscoveryEurekaClientApplication {
 		return this.discoveryClient.getInstances(applicationName);
 	}
 
-	@GetMapping("/discoveryClient")
-	public String serviceDiscoveryClient() {
+	@GetMapping("/discoveryClient/{serviceName}")
+	public String serviceDiscoveryClient(@PathVariable String serviceName) {
 
 		String serviceBaseUrl = "...";
-		List<ServiceInstance> list = discoveryClient.getInstances(REMOTE_SERVICE);
+		List<ServiceInstance> list = discoveryClient.getInstances(serviceName);
 		if (list != null && list.size() > 0) {
 			serviceBaseUrl = list.get(0).getUri().toString();
 		}
@@ -102,11 +96,11 @@ public class SpringCloudDiscoveryEurekaClientApplication {
 				"discoveryClient");
 	}
 
-	@GetMapping("/eurekaClient")
-	public String serviceEurekaClient() {
+	@GetMapping("/eurekaClient/{serviceName}")
+	public String serviceEurekaClient(@PathVariable String serviceName) {
 
 //		InstanceInfo instanceInfo = eurekaClient.getApplication(REMOTE_SERVICE).getInstances().get(0);
-		InstanceInfo instanceInfo = eurekaClient.getNextServerFromEureka(REMOTE_SERVICE, false);
+		InstanceInfo instanceInfo = eurekaClient.getNextServerFromEureka(serviceName, false);
 		String serviceBaseUrl = instanceInfo.getHomePageUrl();
 		System.out.printf("serviceBaseUrl : {%s}\n", serviceBaseUrl);
 

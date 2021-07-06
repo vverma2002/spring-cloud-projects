@@ -1,11 +1,11 @@
 spring:
   application:
-    name: eureka-service-abc
+    name: eureka-service-def
   main:    lazy-initialization: true
     
 server:
 #  port: 0   # For Dynamic Port allocation
-  port: 8070
+  port: 8071
   
 eureka:
   instance:
@@ -16,7 +16,7 @@ eureka:
     metadata-map:
       customProp: customPropValue
       name: ${spring.application.name}
-      type: service
+      type: service        
   client:
     enabled: true     # discoveryClient autowire wont work if enabled is false. 
     refresh:
