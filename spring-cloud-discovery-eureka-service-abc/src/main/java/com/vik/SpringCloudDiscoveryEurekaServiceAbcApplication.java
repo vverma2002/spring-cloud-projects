@@ -47,6 +47,7 @@ public class SpringCloudDiscoveryEurekaServiceAbcApplication {
 		map.put("/greetings", "http://localhost:" + serverPort + "/greetings");
 		map.put("/service-instances/{applicationName}",
 				"http://localhost:" + serverPort + "/service-instances/" + aplicationName);
+		map.put("/serviceAbc/fetchData", "http://localhost:" + serverPort + "/serviceAbc/fetchData");
 		return map;
 	}
 
@@ -60,6 +61,11 @@ public class SpringCloudDiscoveryEurekaServiceAbcApplication {
 		}
 
 		return String.format("Hello %s! From %s, Hosted at %s", name, aplicationName, host);
+	}
+
+	@GetMapping("/serviceAbc/fetchData")
+	public String fetchData() {
+		return greetings("ServiceAbc Fetched Data");
 	}
 
 	@GetMapping("/service-instances/{applicationName}")

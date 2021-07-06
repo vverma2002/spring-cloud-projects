@@ -22,7 +22,6 @@ public class SpringCloudDiscoveryEurekaServiceDefApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCloudDiscoveryEurekaServiceDefApplication.class, args);
 	}
-	
 
 	@Value("${spring.application.name}")
 	private String aplicationName;
@@ -48,6 +47,7 @@ public class SpringCloudDiscoveryEurekaServiceDefApplication {
 		map.put("/greetings", "http://localhost:" + serverPort + "/greetings");
 		map.put("/service-instances/{applicationName}",
 				"http://localhost:" + serverPort + "/service-instances/" + aplicationName);
+		map.put("/serviceDef/fetchData", "http://localhost:" + serverPort + "/serviceDef/fetchData");
 		return map;
 	}
 
@@ -61,6 +61,11 @@ public class SpringCloudDiscoveryEurekaServiceDefApplication {
 		}
 
 		return String.format("Hello %s! From %s, Hosted at %s", name, aplicationName, host);
+	}
+
+	@GetMapping("/serviceDef/fetchData")
+	public String fetchData() {
+		return greetings("ServiceDef Fetched Data");
 	}
 
 	@GetMapping("/service-instances/{applicationName}")
