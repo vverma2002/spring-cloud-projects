@@ -17,12 +17,17 @@ spring:
 #        predicates:
 #        - Path=/serviceAbc/**
 #        filters:
+#        - RewritePath=/serviceAbc(?<path>/?.*), $\{path}     # /serviceAbc/greetings, this sets the path to /greetings before making the downstream request
 #        - AddRequestHeader=first-request, first-request-header
 #        - AddResponseHeader=first-response, first-response-header
 #      - id: serviceDef
 #        uri: lb://EUREKA-SERVICE-DEF/ #http://localhost:8071/
 #        predicates:
 #        - Path=/serviceDef/**
+#        filters:
+#        - RewritePath=/serviceDef(?<path>/?.*), $\{path}     # /serviceDef/greetings, this sets the path to /greetings before making the downstream request
+##        - RewritePath=/serviceDef, /backingServiceEndpoint
+##        - RewritePath=/red(?<path>/?.*), $\{path}     # /serviceDef/red/blue, this sets the path to /serviceDef/blue before making the downstream request
 ##      discovery:
 ##        locator:
 ##          lower-case-service-id: true
@@ -45,4 +50,9 @@ eureka:
 
 
 
-debug: false
+#debug: false
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG

@@ -41,8 +41,8 @@ public class SpringCloudRoutingGatewayApplication {
 		map.put("ActiveProfile", activeProfile);
 		map.put("Actuator", "http://localhost:" + serverPort + "/actuator");
 		map.put("----------", "----------");
-		map.put("/serviceAbc/fetchData", "http://localhost:" + serverPort + "/serviceAbc/fetchData");
-		map.put("/serviceDef/fetchData", "http://localhost:" + serverPort + "/serviceDef/fetchData");
+		map.put("/serviceAbc/greetings", "http://localhost:" + serverPort + "/serviceAbc/greetings");
+		map.put("/serviceDef/greetings", "http://localhost:" + serverPort + "/serviceDef/greetings");
 		return map;
 	}
 }
@@ -54,11 +54,13 @@ class SpringCloudConfig {
 	public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
 		return builder.routes()
                 .route(r -> r.path("/serviceAbc/**")
-            			.filters(f -> f.addRequestHeader("first-request", "first-request-header")
+            			.filters(f -> f.rewritePath("/serviceAbc(?<path>/?.*)", "$\\{path}")
+            					       .addRequestHeader("first-request", "first-request-header")
 								       .addResponseHeader("first-response", "first-response-header"))        
 //            			.uri("http://localhost:8070/"))
                 		.uri("lb://EUREKA-SERVICE-ABC"))
                 .route(r -> r.path("/serviceDef/**")
+                		.filters(f -> f.rewritePath("/serviceDef(?<path>/?.*)", "$\\{path}"))
 //                        .uri("http://localhost:8071/"))
                 		.uri("lb://EUREKA-SERVICE-DEF"))
 //                .route(p -> p
