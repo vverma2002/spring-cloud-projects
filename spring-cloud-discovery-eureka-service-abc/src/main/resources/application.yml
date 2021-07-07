@@ -10,6 +10,7 @@ server:
 eureka:
   instance:
 #    hostname: ${APPLICATION_DOMAIN}    # Not needed if you are running on a machine that knows its own hostname 
+    hostname: localhost    # Not needed if you are running on a machine that knows its own hostname 
 #    nonSecurePort: 80  
 #    preferIpAddress: true              # When the application registers with eureka, it uses its IP address rather than its hostname.
     lease-renewal-interval-in-seconds: 10   # DO NOT DO THIS IN PRODUCTION
